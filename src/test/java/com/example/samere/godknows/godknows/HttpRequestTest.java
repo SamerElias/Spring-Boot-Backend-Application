@@ -26,7 +26,7 @@ public class HttpRequestTest {
 
     @Test
     public void testGetAccountById() {
-        Account account = new Account(9999L, "Samer Elias", "samere@gmail.com", LocalDate.of(1995,07,21));
+        Account account = new Account(9999L, "Samer Elias", "samere@gmail.com", "Asdasd123@", LocalDate.of(1995,07,21));
         String accountId = "9999";
         ResponseEntity<Account> response = testRestTemplate
                 .getForEntity(getAccountURL(accountId), Account.class);
@@ -36,7 +36,7 @@ public class HttpRequestTest {
 
     @Test
     public void testAddAccount() {
-        Account account = new Account(9998L, "Mari Co", "mari@gmail.com", LocalDate.of(2001,01,22));
+        Account account = new Account(9998L, "Mari Co", "mari@gmail.com", "Asdasd1!", LocalDate.of(2001,01,22));
         HttpEntity<Account> request =
                 new HttpEntity<>(account);
         ResponseEntity<String> response = testRestTemplate

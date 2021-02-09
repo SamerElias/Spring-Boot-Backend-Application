@@ -15,14 +15,16 @@ public class Account {
     private Long id;
     private String name;
     private String email;
+    private String password;
     private LocalDate DOB;
     @Transient
     private Integer age;
 
-    public Account(Long id, String name, String email, LocalDate DOB) {
+    public Account(Long id, String name, String email, String password, LocalDate DOB) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.password = password;
         this.DOB = DOB;
     }
 
@@ -65,6 +67,10 @@ public class Account {
     public void setDOB(LocalDate DOB) {
         this.DOB = DOB;
     }
+
+    public String getPassword() { return this.password; }
+
+    public void setPassword(String password) { this.password = password; }
 
     public Integer getAge() {
         return this.DOB == null ? null : Period.between(this.DOB, LocalDate.now()).getYears();
