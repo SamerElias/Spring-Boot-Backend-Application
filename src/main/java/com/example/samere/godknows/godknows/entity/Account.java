@@ -2,36 +2,48 @@ package com.example.samere.godknows.godknows.entity;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Objects;
 
 @Entity
-@Table
-public class Account {
+@Table(name = "ACCOUNT")
+public class Account implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, unique = true)
     private Long id;
+
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
-    private String password;
+
+    @Column(name = "date_of_birth", nullable = false)
     private LocalDate DOB;
+
+    @Column(name = "userid", nullable = false)
+    private Long userId;
+
     @Transient
     private Integer age;
 
-    public Account(Long id, String name, String email, String password, LocalDate DOB) {
+    public Account(Long id, String name, String username, String email, String password, LocalDate DOB, Long userId) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.password = password;
         this.DOB = DOB;
+        this.userId = userId;
     }
 
-    public Account(String name, String email, LocalDate DOB) {
+    public Account(String name, String username, String email, String password, LocalDate DOB, Long userId) {
         this.name = name;
         this.email = email;
         this.DOB = DOB;
+        this.userId = userId;
     }
 
     public Account() {}
@@ -68,16 +80,20 @@ public class Account {
         this.DOB = DOB;
     }
 
-    public String getPassword() { return this.password; }
-
-    public void setPassword(String password) { this.password = password; }
-
     public Integer getAge() {
         return this.DOB == null ? null : Period.between(this.DOB, LocalDate.now()).getYears();
     }
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public void updateAccount(Account account) {
@@ -108,7 +124,7 @@ public class Account {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return id.equals(account.id) && Objects.equals(name, account.name) && Objects.equals(email, account.email) && Objects.equals(DOB, account.DOB);
+        return id.equals(account.id) && Objects.equals(name, account.name) && Objects.equals(userId, account.userId) && Objects.equals(email, account.email) && Objects.equals(DOB, account.DOB);
     }
 
     @Override

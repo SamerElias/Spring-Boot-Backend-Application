@@ -1,9 +1,8 @@
 package com.example.samere.godknows.godknows.service;
 
 import com.example.samere.godknows.godknows.entity.Account;
+import com.example.samere.godknows.godknows.entity.AccountUpdateRequest;
 import org.springframework.http.ResponseEntity;
-
-import java.util.List;
 
 public interface AccountService {
 
@@ -14,5 +13,7 @@ public interface AccountService {
     ResponseEntity addNewAccount(Account account);
 
     ResponseEntity deleteExistingAccount(Long accountId);
+
+    ResponseEntity updateExistingAccount(Long accountId, AccountUpdateRequest account);
 
 }

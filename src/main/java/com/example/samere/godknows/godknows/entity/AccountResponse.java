@@ -22,8 +22,8 @@ public class AccountResponse {
     }
 
     public static AccountResponse prepAccountResponse(Account account) {
-        return new AccountResponse(account.getId(), account.getName(),
-                account.getEmail(), account.getDOB(), account.getAge());
+        return new AccountResponse(account.getId(), account.getName()
+                , account.getEmail(), account.getDOB(), account.getAge());
     }
 
     public static List<AccountResponse> prepAccountListResponse(List<Account> accounts) {
