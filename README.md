@@ -6,6 +6,7 @@ Already developed:
 - Controller, Service and DAO layers
 - APIs to support adding, removing, update and more
 - Junit tests to test all APIs and confirm API logic is working
+- PostgresQL as a Database
 
 This application has been developed using Java and Spring Boot and JWT.
 The purpose of the application is to serve as a backbone for other applications which is why I am implementing the CRUD functionality only here.
