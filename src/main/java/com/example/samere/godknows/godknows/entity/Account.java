@@ -1,6 +1,5 @@
 package com.example.samere.godknows.godknows.entity;
 
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -13,7 +12,7 @@ public class Account implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true)
+    @Column(name = "account_id", nullable = false, unique = true, insertable = false, updatable = false)
     private Long id;
 
     @Column(name = "name", nullable = false)
@@ -25,25 +24,33 @@ public class Account implements Serializable {
     @Column(name = "date_of_birth", nullable = false)
     private LocalDate DOB;
 
-    @Column(name = "userid", nullable = false)
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Transient
     private Integer age;
 
-    public Account(Long id, String name, String username, String email, String password, LocalDate DOB, Long userId) {
+    public Account(Long id, String name, String email, LocalDate DOB, User user) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.DOB = DOB;
-        this.userId = userId;
+        this.user = user;
     }
 
-    public Account(String name, String username, String email, String password, LocalDate DOB, Long userId) {
+    public Account(String name, String email, LocalDate DOB, User user) {
         this.name = name;
         this.email = email;
         this.DOB = DOB;
-        this.userId = userId;
+        this.user = user;
+    }
+
+    public Account(Long id, String name, String email, LocalDate DOB) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.DOB = DOB;
     }
 
     public Account() {}
@@ -88,12 +95,12 @@ public class Account implements Serializable {
         this.age = age;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void updateAccount(Account account) {
@@ -115,7 +122,7 @@ public class Account implements Serializable {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", DOB=" + DOB +
-                ", age=" + age +
+                ", user=" + user +
                 '}';
     }
 
@@ -124,7 +131,7 @@ public class Account implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return id.equals(account.id) && Objects.equals(name, account.name) && Objects.equals(userId, account.userId) && Objects.equals(email, account.email) && Objects.equals(DOB, account.DOB);
+        return id.equals(account.id) && Objects.equals(name, account.name) && Objects.equals(email, account.email) && Objects.equals(DOB, account.DOB);
     }
 
     @Override

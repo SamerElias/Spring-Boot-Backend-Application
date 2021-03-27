@@ -2,10 +2,7 @@ package com.example.samere.godknows.godknows.service;
 
 import com.example.samere.godknows.godknows.dao.AccountDAO;
 import com.example.samere.godknows.godknows.dao.UserDAO;
-import com.example.samere.godknows.godknows.entity.Account;
-import com.example.samere.godknows.godknows.entity.User;
-import com.example.samere.godknows.godknows.entity.AccountResponse;
-import com.example.samere.godknows.godknows.entity.AccountUpdateRequest;
+import com.example.samere.godknows.godknows.entity.*;
 import com.example.samere.godknows.godknows.util.AccountEmailValidator;
 import com.example.samere.godknows.godknows.util.JSON;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -13,21 +10,21 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.Collections.emptyList;
 
 @Service
 public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private AccountDAO accountDAO;
+
+    @Autowired
+    private UserDAO userDAO;
 
     public ResponseEntity getAccounts() {
         List<Account> accounts = accountDAO.findAll();
@@ -54,7 +51,8 @@ public class AccountServiceImpl implements AccountService {
         return new ResponseEntity(responseBody, HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity addNewAccount(Account account) {
+    public ResponseEntity addNewAccount(AccountRequest accountRequest) {
+        Account account = mapRequestToAccount(accountRequest);
         ResponseEntity responseEntity;
         // in case of unexpected case where id was given, override it
         account.setId(null);
@@ -144,6 +142,19 @@ public class AccountServiceImpl implements AccountService {
             account.setDOB(dob);
         }
         return account;
+    }
+
+    private Account mapRequestToAccount(AccountRequest accountRequest) {
+        Long userId = accountRequest.getUserId();
+        Optional<User> optionalUser = userDAO.findById(userId);
+        if(!optionalUser.isPresent()) {
+            throw  new IllegalArgumentException("User with id = " + userId + " does not exist");
+        }
+        User user = optionalUser.get();
+        String name = accountRequest.getName();
+        String email = accountRequest.getEmail();
+        LocalDate dob = accountRequest.getDOB();
+        return new Account(name, email, dob, user);
     }
 
 }

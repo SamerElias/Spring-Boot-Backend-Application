@@ -1,4 +1,4 @@
-package com.example.samere.godknows.godknows.Auth;
+package com.example.samere.godknows.godknows.auth;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -52,7 +52,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             HttpServletResponse res,
                                             FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
-
         String token = JWT.create()
                 .withSubject(((User) auth.getPrincipal()).getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
@@ -63,4 +62,14 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         tokenResponse.put("Token", TOKEN_PREFIX + token);
         res.getWriter().write(String.valueOf(tokenResponse));
     }
+
+    public static String createToken() {
+        String token = JWT.create()
+                .withSubject(TEMP_USER)
+                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .sign(HMAC512(SECRET.getBytes()));
+
+        return token;
+    }
+
 }

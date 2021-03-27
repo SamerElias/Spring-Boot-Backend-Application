@@ -2,6 +2,7 @@ package com.example.samere.godknows.godknows.controller;
 
 import com.example.samere.godknows.godknows.config.ApplicationSettings;
 import com.example.samere.godknows.godknows.entity.Account;
+import com.example.samere.godknows.godknows.entity.AccountRequest;
 import com.example.samere.godknows.godknows.entity.AccountUpdateRequest;
 import com.example.samere.godknows.godknows.service.AccountServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class AccountController {
     }
 
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity registerAccount(@RequestBody Account account) {
+    public ResponseEntity registerAccount(@RequestBody AccountRequest account) {
         return accountService.addNewAccount(account);
     }
 

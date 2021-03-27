@@ -1,4 +1,4 @@
-package com.example.samere.godknows.godknows.Auth;
+package com.example.samere.godknows.godknows.auth;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
